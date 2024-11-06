@@ -1,44 +1,44 @@
 body {
-    text-align: center;
+  text-align: center;
 }
 
 .btn {
-    height: 200px;
-    width: 200px;
-    /* background-color: #4caf50; */
-    border-radius: 20%;
-    color: white;
-    border: 10px solid black;
-    margin: 1.25rem;
+  height: 200px;
+  width: 200px;
+  /* background-color: #4caf50; */
+  border-radius: 20%;
+  color: white;
+  border: 10px solid black;
+  margin: 1.25rem;
 }
 
 .btn-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 /* Beow is the code for teh butttn background */
 
 .red {
-    background-color: #d95980;
+  background-color: #d95980;
 }
 
 .yellow {
-    background-color: #f99b45;
+  background-color: #f99b45;
 }
 
 .green {
-    background-color: #819ff9;
+  background-color: #819ff9;
 }
 
 .purple {
-    background-color: #63aac0;
+  background-color: #63aac0;
 }
 
 .flash {
-    background-color: whitesmoke;
+  background-color: whitesmoke;
 }
 
 .userFlash {
-    background-color: forestgreen;
+  background-color: forestgreen;
 }
