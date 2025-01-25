@@ -11,7 +11,7 @@ const h2 = document.querySelector("h2");
 // Event listener for starting the game
 document.addEventListener("keypress", () => {
   if (!started) {
-    console.log("Game has started!");
+    updateScoreboard();
     started = true;
     levelUp();
   }
@@ -84,10 +84,42 @@ function btnPressed() {
 const allBtns = document.querySelectorAll(".btn");
 allBtns.forEach((btn) => btn.addEventListener("click", btnPressed));
 
-// Reset the game state
 function reset() {
   started = false;
   level = 0;
   userSeq = [];
   gameSeq = [];
+  document.body.style.backgroundColor = "#FF6B6B"; // Bright red on game over
+  setTimeout(() => {
+    document.body.style.backgroundColor = "white";
+  }, 500);
+
+  h2.innerHTML = `Game Over! Press any key to restart. <br>Your Score: ${level}`;
 }
+function updateScoreboard() {
+  document.getElementById("current-level").innerText = level;
+  const highScore = localStorage.getItem("highScore") || 0;
+  document.getElementById("high-score").innerText = highScore;
+}
+
+function reset() {
+  const highScore = localStorage.getItem("highScore") || 0;
+
+  if (level > highScore) {
+    localStorage.setItem("highScore", level);
+    alert(`New High Score: ${level}!`);
+  } else {
+    alert(`Your Score: ${level}. High Score: ${highScore}`);
+  }
+
+  started = false;
+  level = 0;
+  userSeq = [];
+  gameSeq = [];
+  updateScoreboard();
+}
+document.getElementById("reset-high-score").addEventListener("click", () => {
+  localStorage.setItem("highScore", 0);
+  updateScoreboard();
+  alert("High Score has been reset!");
+});
