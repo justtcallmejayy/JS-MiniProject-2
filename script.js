@@ -5,12 +5,12 @@ const buttons = ["red", "yellow", "purple", "green"];
 let started = false;
 let level = 0;
 
-// Accessing the heading element
 const h2 = document.querySelector("h2");
 
-// Event listener for starting the game
-document.addEventListener("keypress", () => {
-  if (!started) {
+// Event listener for starting the game with the space bar
+document.addEventListener("keydown", (event) => {
+  if (!started && event.code === "Space") {
+    console.log("Space bar pressed. Game starting...");
     updateScoreboard();
     started = true;
     levelUp();
@@ -26,7 +26,9 @@ function flashButton(btn, className) {
 }
 
 // Game's flash effect
-function gameFlash(btn) {
+function gameFlash(color) {
+  const btn = document.querySelector(`.${color}`);
+  if (!btn) return; // Ensure the button exists
   flashButton(btn, "flash");
 }
 
@@ -37,30 +39,37 @@ function userFlash(btn) {
 
 // Level up function
 function levelUp() {
-  userSeq = []; // Reset user sequence for the new round
+  userSeq = [];
   level++;
-  h2.innerText = `Your level is: ${level}`;
+  h2.innerText = `Your level is: ${level}`; // Update level text
 
   const randIndex = Math.floor(Math.random() * buttons.length);
   const randColor = buttons[randIndex];
-  const randButton = document.querySelector(`.${randColor}`);
 
   gameSeq.push(randColor);
-  console.log(gameSeq);
+  console.log("Game sequence:", gameSeq);
 
-  gameFlash(randButton);
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i >= gameSeq.length) {
+      clearInterval(interval);
+      return;
+    }
+    gameFlash(gameSeq[i]);
+    i++;
+  }, 800);
+
+  updateScoreboard();
 }
 
-// Check the user's button click against the game sequence
+// Check user's input
 function checkUserColor(indexLevel) {
-  h2.innerText = `Current Level: ${level}`;
-
   if (userSeq[indexLevel] === gameSeq[indexLevel]) {
     if (userSeq.length === gameSeq.length) {
       setTimeout(levelUp, 1000);
     }
   } else {
-    h2.innerHTML = `Game over! Press any key to try again. Your score: ${level}`;
+    h2.innerHTML = `Game over! Press Space to try again. Your score: ${level}`;
     document.body.style.backgroundColor = "red";
     setTimeout(() => {
       document.body.style.backgroundColor = "white";
@@ -71,6 +80,8 @@ function checkUserColor(indexLevel) {
 
 // Handle button press event
 function btnPressed() {
+  if (!started) return;
+
   const btn = this;
   userFlash(btn);
 
@@ -82,26 +93,31 @@ function btnPressed() {
 
 // Add event listeners to all buttons
 const allBtns = document.querySelectorAll(".btn");
-allBtns.forEach((btn) => btn.addEventListener("click", btnPressed));
-
-function reset() {
-  started = false;
-  level = 0;
-  userSeq = [];
-  gameSeq = [];
-  document.body.style.backgroundColor = "#FF6B6B"; // Bright red on game over
-  setTimeout(() => {
-    document.body.style.backgroundColor = "white";
-  }, 500);
-
-  h2.innerHTML = `Game Over! Press any key to restart. <br>Your Score: ${level}`;
+if (allBtns.length > 0) {
+  allBtns.forEach((btn) => btn.addEventListener("click", btnPressed));
+} else {
+  console.error(
+    "No buttons found! Ensure your HTML contains elements with the class 'btn'."
+  );
 }
+
+// Update the scoreboard
 function updateScoreboard() {
-  document.getElementById("current-level").innerText = level;
-  const highScore = localStorage.getItem("highScore") || 0;
-  document.getElementById("high-score").innerText = highScore;
+  const currentLevelElem = document.getElementById("current-level");
+  const highScoreElem = document.getElementById("high-score");
+
+  if (currentLevelElem && highScoreElem) {
+    currentLevelElem.innerText = level;
+    const highScore = localStorage.getItem("highScore") || 0;
+    highScoreElem.innerText = highScore;
+  } else {
+    console.error(
+      "Scoreboard elements not found! Ensure your HTML contains #current-level and #high-score elements."
+    );
+  }
 }
 
+// Reset the game
 function reset() {
   const highScore = localStorage.getItem("highScore") || 0;
 
@@ -118,8 +134,17 @@ function reset() {
   gameSeq = [];
   updateScoreboard();
 }
-document.getElementById("reset-high-score").addEventListener("click", () => {
-  localStorage.setItem("highScore", 0);
-  updateScoreboard();
-  alert("High Score has been reset!");
-});
+
+// Reset high score
+const resetHighScoreBtn = document.getElementById("reset-high-score");
+if (resetHighScoreBtn) {
+  resetHighScoreBtn.addEventListener("click", () => {
+    localStorage.setItem("highScore", 0);
+    updateScoreboard();
+    alert("High Score has been reset!");
+  });
+} else {
+  console.error(
+    "Reset high score button not found! Ensure your HTML contains an element with id 'reset-high-score'."
+  );
+}
