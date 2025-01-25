@@ -1,9 +1,19 @@
 body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+header {
+  padding: 20px;
+  background-color: #4d96ff;
+  color: white;
+}
+
+.instructions {
+  font-size: 1rem;
+  margin: 10px 0;
 }
 
 .game-container {
@@ -20,51 +30,91 @@ h2 {
   margin-bottom: 20px;
 }
 
-.btn-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 15px;
-  justify-content: center;
-  max-width: 400px;
-  margin: 0 auto;
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
-.btn {
-  height: 100px;
-  width: 100px;
-  border-radius: 20%;
-  color: white;
-  border: 5px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
+.scoreboard {
+  margin: 20px auto;
+  padding: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.scoreboard h3 {
+  margin: 10px;
+  font-size: 1.2rem;
 }
 
 /* Beow is the code for teh butttn background */
 
+.btn-container {
+  display: grid;
+  grid-template-columns: repeat(2, 150px);
+  grid-gap: 20px;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.btn {
+  height: 150px;
+  width: 150px;
+  border-radius: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
 .red {
-  background-color: #d95980;
+  background-color: #ff6b6b;
 }
 
 .yellow {
-  background-color: #f99b45;
+  background-color: #ffd93d;
 }
 
 .green {
-  background-color: #819ff9;
+  background-color: #6bcb77;
 }
 
 .purple {
-  background-color: #63aac0;
+  background-color: #4d96ff;
 }
 
+footer {
+  margin: 20px;
+}
+
+#reset-high-score {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#reset-high-score:hover {
+  background-color: #d84545;
+}
+
+/* Flash Effects */
 .flash {
-  background-color: whitesmoke;
+  background-color: whitesmoke !important;
 }
 
 .userFlash {
-  background-color: forestgreen;
+  background-color: #2d6a4f !important; /* Dark Green */
 }
 
 /* Media queries for responsiveness */
